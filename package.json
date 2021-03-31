@@ -1,0 +1,15 @@
+{
+  "name": "paginated_get",
+  "version": "1.0.0",
+  "description": "paginated get api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sneha Kamalakar",
+  "license": "ISC",
+  "dependencies": {
+    "serverless": "^2.32.1",
+    "serverless-offline": "^6.9.0"
+  }
+}

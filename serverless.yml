@@ -1,0 +1,61 @@
+service: get-records # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  version: v1
+  memorySize: 1024 # optional, in MB, default is 1024
+  timeout: 60 # optional, in seconds, default is 6
+functions:
+  manageRecords:
+      role: ${self:provider.iam.role}
+      handler: services/manageRecords.manageRecords
+      events:
+        - http:
+            path: /${self:provider.version}/manage-records
+            method: get
+            cors:
+              origin: '*'
+              headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - accesstoken
+              - X-Amz-User-Agent
+              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Credentials  
+  getAllRecords:
+      role: ${self:provider.iam.role}
+      handler: services/getAllRecords.getAllRecords
+      events:
+        - http:
+            path: /${self:provider.version}/get-records
+            method: get
+            cors:
+              origin: '*'
+              headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - accesstoken
+              - X-Amz-User-Agent
+              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Credentials
+Resources:
+    records:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        - AttributeName: id
+          AttributeType: S
+      KeySchema: 
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
